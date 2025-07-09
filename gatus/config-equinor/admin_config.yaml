@@ -1,0 +1,161 @@
+alerting:
+  custom:
+    url: "https://statoilsrm.webhook.office.com/webhookb2/2955bcc5-d296-4042-a99b-a869df558c58@3aa4a235-b6e2-48d5-9195-7fcf05b459b0/IncomingWebhook/4d763282f00f48729600f213ca103315/bb9cc6dd-d60d-46b3-98c3-442df7ea1ad9/V26-ESvsWpIqvzaMrH5HQFo_SCZyo1e2k3q3XYpXgT-rA1"
+    method: "POST"
+    body: |
+      {
+        "text": "<span style=font-size:20px> <b> [ENDPOINT_GROUP]: [ENDPOINT_NAME] </b></span><br /><br /><span style=font-size:18px;margin-left:20px> <b>Status: [ALERT_TRIGGERED_OR_RESOLVED]</b></span> <br /><br /> <span style=font-size:16px;margin-left:20px><b>Application URL:</b> [ENDPOINT_URL] </span><br /><span style=font-size:16px;margin-left:20px><b>Description:</b> [ALERT_DESCRIPTION]</span><br /> <span style=font-size:16px;margin-left:20px><b>Error:</b> [RESULT_ERRORS]<br />"
+      }
+    placeholders:
+      ALERT_TRIGGERED_OR_RESOLVED:
+        TRIGGERED: "Partial Outage 🔴 "
+        RESOLVED: "Operational ✅ "
+    default-alert:
+      description: "Health Check Failed. Please Check @CDF_DataOps"
+      send-on-resolved: true
+      failure-threshold: 1
+      success-threshold: 3
+
+ui:
+  title: CDF Monitoring Tool
+  links:
+  - name: SHIPPING MARKET INSIGHT
+    url: /group1
+  - name: PANAMA CONGESTION INSIGHT
+    url: /group2
+
+storage:
+  type: postgres
+  path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_DB}"
+  caching: true
+
+endpoints:
+  - name: Development
+    group: SHIPPING MARKET INSIGHT
+    url: "https://app-cpl-shipping-insights-dev.radix.equinor.com/"
+    tags: ["group1"]
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Test
+    group: SHIPPING MARKET INSIGHT
+    url: "https://app-cpl-shipping-insights-test.radix.equinor.com/"
+    tags: ["group1"]   
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Production
+    group: SHIPPING MARKET INSIGHT
+    url: "https://app-cpl-shipping-insights-prod.radix.equinor.com/"
+    tags: ["group1"]   
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Development
+    group: PANAMA CONGESTION INSIGHT
+    url: "https://dev-panama-congestion.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Test
+    group: PANAMA CONGESTION INSIGHT
+    url: "https://test-panama-congestion.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]          
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Production
+    group: PANAMA CONGESTION INSIGHT
+    url: "https://panama-congestion.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]         
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Development
+    group: CPL PRICE INSIGHT
+    url: "https://dev-cpl-price.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Test
+    group: CPL PRICE INSIGHT
+    url: "https://test-cpl-price.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Production
+    group: CPL PRICE INSIGHT
+    url: "https://cpl-price.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Development
+    group: BALANCES & FLOW INSIGHT
+    url: "https://dev-global-balances.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Test
+    group: BALANCES & FLOW INSIGHT
+    url: "https://test-global-balances.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: Production
+    group: BALANCES & FLOW INSIGHT
+    url: "https://global-balances.equinor-insight.cogniteapp.com/"
+    tags: ["group2"]      
+    interval: 1m
+    conditions:
+      - "[STATUS] == 200"
+    alerts:
+      - type: custom
+
+  - name: eqn-gb-jobs-test
+    group: BALANCES & FLOW INSIGHT
+    url: "https://argocd.inso-internal.cognite.ai/api/badge?name=az-scs-internal-registry-eqn-jobs-test&revision=true"
+    interval: 5m
+    conditions:
+      - "[BODY] == pat(*>Healthy<*)"
+      - "[BODY] == pat(*>Synced<*)"
+    alerts:
+      - type: custom

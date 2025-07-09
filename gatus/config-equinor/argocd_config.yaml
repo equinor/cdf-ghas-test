@@ -1,0 +1,34 @@
+alerting:
+  custom:
+    url: "https://statoilsrm.webhook.office.com/webhookb2/2955bcc5-d296-4042-a99b-a869df558c58@3aa4a235-b6e2-48d5-9195-7fcf05b459b0/IncomingWebhook/4d763282f00f48729600f213ca103315/bb9cc6dd-d60d-46b3-98c3-442df7ea1ad9/V26-ESvsWpIqvzaMrH5HQFo_SCZyo1e2k3q3XYpXgT-rA1"
+    method: "POST"
+    body: |
+      {
+        "text": "<span style=font-size:20px> <b> [ENDPOINT_GROUP]: [ENDPOINT_NAME] </b></span><br /><br /><span style=font-size:18px;margin-left:20px> <b>Status: [ALERT_TRIGGERED_OR_RESOLVED]</b></span> <br /><br /> <span style=font-size:16px;margin-left:20px><b>Application URL:</b> [ENDPOINT_URL] </span><br /><span style=font-size:16px;margin-left:20px><b>Description:</b> [ALERT_DESCRIPTION]</span><br /> <span style=font-size:16px;margin-left:20px><b>Error:</b> [RESULT_ERRORS]<br />"
+      }
+    placeholders:
+      ALERT_TRIGGERED_OR_RESOLVED:
+        TRIGGERED: "Partial Outage 🔴 "
+        RESOLVED: "Operational ✅ "
+
+    default-alert:
+      description: "Health Check Failed. Please Check @CDF_DataOps"
+      send-on-resolved: true
+      failure-threshold: 5
+      success-threshold: 3
+
+#storage:
+#  type: postgres
+#  path: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_DB}"
+#  caching: true
+
+endpoints:
+  - name: eqn-gb-jobs-test
+    group: BALANCES & FLOW INSIGHT
+    url: "https://argocd.inso-internal.cognite.ai/api/badge?name=az-scs-internal-registry-eqn-jobs-test&revision=true"
+    interval: 5m
+    conditions:
+      - "[BODY] == pat(*>Healthy<*)"
+      - "[BODY] == pat(*>Synced<*)"
+    alerts:
+      - type: custom

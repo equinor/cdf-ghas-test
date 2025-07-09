@@ -1,0 +1,36 @@
+apiVersion: radix.equinor.com/v1
+kind: RadixApplication
+metadata:
+  name: cdf-monitoring
+spec:
+  environments:
+    - name: prod
+      build:
+        from: main
+  build:
+    useBuildKit: true
+
+  components:
+    - name: url
+      src: "./gatus"
+      publicPort: http
+      ports:
+        - name: http
+          port: 8080
+      authentication:
+        oauth2:
+          clientId: 11111-22222-33333-44444
+          scope: openid profile email offline_access
+          setXAuthRequestHeaders: true
+          setAuthorizationHeader: true
+          sessionStoreType: redis
+          redisStore:
+            connectionUrl: redis://redis:6379
+
+    - name: redis
+      image: bitnami/redis:latest
+      secrets:
+        - REDIS_PASSWORD
+      ports:
+        - name: redis
+          port: 6379

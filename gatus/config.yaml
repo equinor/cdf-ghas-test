@@ -1,0 +1,10 @@
+endpoints:
+  - name: google
+    group: FRONTEND DEVELOPMENT
+    url: "google.com"
+    interval: 5m
+    conditions:
+      - "[STATUS] == 200"
+      - "[STATUS] != 500"
+    alerts:
+      - type: custom
