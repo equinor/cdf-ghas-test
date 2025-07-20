@@ -1,7 +1,7 @@
 endpoints:
   - name: google
     group: FRONTEND DEVELOPMENT
-    url: "google.com"
+    url: "https://www.google.com/"
     interval: 5m
     conditions:
       - "[STATUS] == 200"
