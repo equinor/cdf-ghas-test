@@ -2,10 +2,10 @@ apiVersion: radix.equinor.com/v1
 kind: RadixApplication
 
 metadata:
-  name: cdf-ghas
+  name: cdf-ghas-test
 spec:
   environments:
-    - name: prod
+    - name: test
       build:
         from: main
   build:
