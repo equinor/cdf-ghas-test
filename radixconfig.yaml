@@ -19,7 +19,7 @@ spec:
           port: 8080
       authentication:
         oauth2:
-          clientId: 11111-22222-33333-44444
+          clientId: e022a492-00aa-4b38-924e-828d1e2769b2
           scope: openid profile email offline_access
           setXAuthRequestHeaders: true
           setAuthorizationHeader: true
