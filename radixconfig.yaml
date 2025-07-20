@@ -1,7 +1,8 @@
 apiVersion: radix.equinor.com/v1
 kind: RadixApplication
+
 metadata:
-  name: cdf-monitoring
+  name: cdf-ghas
 spec:
   environments:
     - name: prod
